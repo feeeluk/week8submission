@@ -29,7 +29,7 @@ export default async function AddCategory(){
 
             {categories.map( (category) => {
                return(
-                   <h1>{category.category_name}</h1>
+                   <h1 key={category.category_id}>{category.category_name}</h1>
                )
            })}
         
