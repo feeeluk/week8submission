@@ -6,8 +6,9 @@ import Link from "next/link";
 export default async function ProgrammePage({params}){
     const db = connect()
     const programmeInfo = (await db.query(`SELECT *
-                                    FROM programmes
-                                    WHERE programme_id = $1`, [params.programme_id])).rows[0]
+                                        FROM programmes
+                                        JOIN categories ON programme_category_id = categories.category_id
+                                        WHERE programme_id = $1`, [params.programme_id])).rows[0]
 
     const programmeEpisodes = (await db.query(`SELECT seasons.season_id AS sn_id, seasons.season_name AS sn_name, episodes.episode_id AS e_id, episodes.episode_name AS e_name, episodes.episode_image AS e_image
                                         FROM programmes
@@ -22,6 +23,7 @@ export default async function ProgrammePage({params}){
             <div>
                 <h1>Name: {programmeInfo.programme_name}</h1>
                 <h1>Description: {programmeInfo.programme_description}</h1>
+                <h1>Category: {programmeInfo.category_name}</h1>
                 <Image height={400} width={250} src={programmeInfo.programme_image} />
                 {/* <LikeButton /> */}
             </div>
@@ -29,12 +31,26 @@ export default async function ProgrammePage({params}){
             <div>Episodes:
                 {programmeEpisodes.map((episode) => {
                     return(
-                            <Link href={`/${programmeInfo.programme_id}/${episode.e_id}`} key={episode.e_name}>
-                                <div>
-                                    <Image height={100} width={150} src={episode.e_image} key={episode.e_name} />
-                                    <h1 key={episode.e_name}>{episode.sn_name} : {episode.e_name}</h1>
+                        <Link href={`/${programmeInfo.programme_id}/${episode.e_id}`} key={episode.e_id}>
+                            <div className="relative
+                                            h-36
+                                            w-52
+                                            overflow-hidden
+                                            m-2
+                                            border-2
+                                            border-black">
+
+                                <div key={episode.e_id} className="relative
+                                                                    top-24
+                                                                    left-2
+                                                                    z-10">
+                                    <h5 key={episode.e_id}>{episode.sn_name} : {episode.e_name}</h5>
                                 </div>
-                            </Link>
+
+                                <Image src={episode.e_image} key={episode.e_id} layout="fill" className="object-cover
+                                                                                                        object-center" /> 
+                            </div> 
+                        </Link>
                     )
                 })}
             </div>
