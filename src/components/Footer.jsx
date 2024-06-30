@@ -5,9 +5,9 @@ export function Footer(){
         <div className="flex justify-center p-3">
             
             <div className="footer">
-                <Link href="/add-category">Add Category</Link>
+                <Link href="/add-programme">Add Programme</Link>
                 &nbsp;|&nbsp;
-                <Link href="/add-show">Add Show</Link>
+                <Link href="/add-category">Add Category</Link>
             </div>
                   
         </div>
