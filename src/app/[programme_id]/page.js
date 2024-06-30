@@ -1,7 +1,7 @@
-import { connect } from "@/utilities/connect";
-import Image from "next/image";
-import Link from "next/link";
-//import { LikeButton } from "@/components/LikeButton";
+import { connect } from "@/utilities/connect"
+import Image from "next/image"
+import Link from "next/link"
+//import { LikeButton } from "@/components/LikeButton"
 
 export default async function ProgrammePage({params}){
     const db = connect()
@@ -24,7 +24,9 @@ export default async function ProgrammePage({params}){
                 <h1>Name: {programmeInfo.programme_name}</h1>
                 <h1>Description: {programmeInfo.programme_description}</h1>
                 <h1>Category: {programmeInfo.category_name}</h1>
-                <Image height={400} width={250} src={programmeInfo.programme_image} />
+                <Link href={`/${programmeInfo.programme_id}/edit`}>                
+                    <Image height={400} width={250} src={programmeInfo.programme_image} />
+                </Link>
                 {/* <LikeButton /> */}
             </div>
 
